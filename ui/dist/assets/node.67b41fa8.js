@@ -1,0 +1,1 @@
+import{H as r}from"./index.85d3582f.js";class t{find(e){return r.get("/node/find",{id:e})}list(e){return r.get("/node/list",{agent:e})}search(){return r.get("/node/search")}save(e){return r.post("/node/save",e)}delete(e){return r.post("/node/delete",{id:e})}}var s=new t;export{s as n};

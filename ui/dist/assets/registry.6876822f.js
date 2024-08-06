@@ -1,0 +1,1 @@
+import{H as e}from"./index.85d3582f.js";class t{find(r){return e.get("/registry/find",{id:r})}search(){return e.get("/registry/search")}save(r){return e.post("/registry/save",r)}delete(r){return e.post("/registry/delete",{id:r})}}var a=new t;export{a as r};

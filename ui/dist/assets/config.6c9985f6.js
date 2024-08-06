@@ -1,0 +1,1 @@
+import{H as r}from"./index.85d3582f.js";class n{find(e){return r.get("/config/find",{id:e})}search(e){return r.get("/config/search",e)}save(e){return r.post("/config/save",e)}delete(e){return r.post("/config/delete",{id:e})}}var o=new n;export{o as c};

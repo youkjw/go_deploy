@@ -1,0 +1,1 @@
+import{H as r}from"./index.85d3582f.js";class o{find(e){return r.get("/network/find",{name:e})}search(){return r.get("/network/search")}save(e){return r.post("/network/save",e)}delete(e,t){return r.post("/network/delete",{id:e,name:t})}disconnect(e,t,n){return r.post("/network/disconnect",{networkId:e,networkName:t,container:n})}}var w=new o;export{w as n};

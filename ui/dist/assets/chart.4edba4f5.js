@@ -1,0 +1,1 @@
+import{H as e}from"./index.85d3582f.js";class a{search(r){return e.get("/chart/search",r)}save(r){return e.post("/chart/save",r)}find(r){return e.get("/chart/find",{id:r})}delete(r,t){return e.post("/chart/delete",{id:r,title:t})}}var h=new a;export{h as c};

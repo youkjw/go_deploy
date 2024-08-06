@@ -1,0 +1,1 @@
+import{H as r}from"./index.85d3582f.js";class o{find(e){return r.get("/role/find",{id:e})}search(e){return r.get("/role/search",{name:e})}save(e){return r.post("/role/save",e)}delete(e,t){return r.post("/role/delete",{id:e,name:t})}}var l=new o;export{l as r};

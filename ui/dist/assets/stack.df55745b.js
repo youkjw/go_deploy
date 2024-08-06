@@ -1,0 +1,1 @@
+import{H as e}from"./index.85d3582f.js";class s{find(t){return e.get("/stack/find",{name:t})}search(t){return e.get("/stack/search",t)}save(t){return e.post("/stack/save",t)}delete(t){return e.post("/stack/delete",{name:t})}shutdown(t){return e.post("/stack/shutdown",{name:t})}deploy(t){return e.post("/stack/deploy",{name:t})}}var c=new s;export{c as s};

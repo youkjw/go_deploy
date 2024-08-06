@@ -1,0 +1,126 @@
+<template>
+  <x-page-header :subtitle="model.name">
+    <template #action>
+      <n-button secondary size="small" @click="$router.push({ name: 'project_list' })">
+        <template #icon>
+          <n-icon>
+            <back-icon />
+          </n-icon>
+        </template>
+        {{ t('buttons.return') }}
+      </n-button>
+    </template>
+  </x-page-header>
+  <n-space class="page-body" vertical :size="12">
+    <n-form :model="model" :rules="rules" ref="form" label-placement="top" label-width="90">
+      <n-grid cols="1 640:2" :x-gap="24">
+        <n-form-item-gi :label="t('项目名称')" path="name">
+          <n-input :placeholder="t('项目名称')" v-model:value="model.name" :disabled="Boolean(model.id)" />
+        </n-form-item-gi>
+        <n-form-item-gi :label="t('项目描述')" path="desc" span="2">
+          <n-input
+            type="textarea"
+            :placeholder="t('项目描述')"
+            v-model:value="model.desc"
+            :autosize="{ minRows: 5, maxRows: 30 }"
+          />
+        </n-form-item-gi>
+        <n-form-item-gi :label="t('仓库地址')" path="depository">
+          <n-input :placeholder="t('仓库地址')" v-model:value="model.depository" :disabled="Boolean(model.id)" />
+        </n-form-item-gi>
+        <n-form-item-gi :label="t('fields.dockerfile')" path="dockerfile" span="2">
+          <n-input
+              type="textarea"
+              rows="10"
+              :placeholder="t('fields.dockerfile')"
+              v-model:value="model.dockerfile"
+          />
+        </n-form-item-gi>
+        <n-form-item-gi :label="t('fields.compose_yml')" path="compose_yml" span="2">
+          <n-input
+              type="textarea"
+              rows="10"
+              :placeholder="t('fields.compose_yml')"
+              v-model:value="model.compose_yml"
+          />
+        </n-form-item-gi>
+        <n-form-item-gi span="3" :label="t('项目文件配置')" path="file_config">
+          <n-dynamic-input v-model:value="model.file_config" #="{ index, value }" :on-create="newPair">
+            <n-space style="width:70%" vertical>
+              <n-input style="width:50%" :placeholder="t('配置文件名称')" v-model:value="value.name" />
+              <n-input type="textarea" rows="10" :placeholder="t('配置文件内容')" v-model:value="value.value" />
+            </n-space>
+          </n-dynamic-input>
+        </n-form-item-gi>
+      </n-grid>
+      <n-button @click.prevent="submit" type="primary" :disabled="submiting" :loading="submiting">
+        <template #icon>
+          <n-icon>
+            <save-icon />
+          </n-icon>
+        </template>
+        {{ t('buttons.save') }}
+      </n-button>
+    </n-form>
+  </n-space>
+</template>
+
+<script setup lang="ts">
+import { onMounted, ref } from "vue";
+import {
+  NButton,
+  NSpace,
+  NInput,
+  NIcon,
+  NForm,
+  NGrid,
+  NFormItemGi,
+  NDynamicInput,
+  NRadioGroup,
+  NRadio,
+  NDivider,
+} from "naive-ui";
+import {
+  ArrowBackCircleOutline as BackIcon,
+  SaveOutline as SaveIcon,
+} from "@vicons/ionicons5";
+import XPageHeader from "@/components/PageHeader.vue";
+import XPanel from "@/components/Panel.vue";
+import projectApi from "@/api/project";
+import type { Project } from "@/api/project";
+import { useRoute } from "vue-router";
+import { router } from "@/router/router";
+import { useForm, requiredRule } from "@/utils/form";
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+const route = useRoute();
+const name = route.params.name as string || ''
+const model = ref({} as Project);
+const rules: any = {
+  name: requiredRule(),
+  desc: requiredRule(),
+  depository: requiredRule(),
+  dockerfile: requiredRule(),
+  compose_yml: requiredRule(),
+};
+const form = ref();
+const { submit, submiting } = useForm(form, () => projectApi.save(model.value), () => {
+  window.message.info(t('texts.action_success'));
+  router.push({ name: 'project_list' })
+})
+
+function newPair() {
+  return { name: '', value: '' }
+}
+
+async function fetchData() {
+  const id = route.params.id as string
+  if (id) {
+    let tr = await projectApi.find(id);
+    model.value = tr.data?.item as Project;
+  }
+}
+
+onMounted(fetchData);
+</script>
