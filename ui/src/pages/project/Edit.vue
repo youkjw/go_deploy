@@ -14,19 +14,19 @@
   <n-space class="page-body" vertical :size="12">
     <n-form :model="model" :rules="rules" ref="form" label-placement="top" label-width="90">
       <n-grid cols="1 640:2" :x-gap="24">
-        <n-form-item-gi :label="t('项目名称')" path="name">
-          <n-input :placeholder="t('项目名称')" v-model:value="model.name" :disabled="Boolean(model.id)" />
+        <n-form-item-gi :label="t('fields.project_name')" path="name">
+          <n-input :placeholder="t('fields.project_name')" v-model:value="model.name" :disabled="Boolean(model.id)" />
         </n-form-item-gi>
-        <n-form-item-gi :label="t('项目描述')" path="desc" span="2">
+        <n-form-item-gi :label="t('fields.project_desc')" path="desc" span="2">
           <n-input
             type="textarea"
-            :placeholder="t('项目描述')"
+            :placeholder="t('fields.project_desc')"
             v-model:value="model.desc"
             :autosize="{ minRows: 5, maxRows: 30 }"
           />
         </n-form-item-gi>
-        <n-form-item-gi :label="t('仓库地址')" path="depository">
-          <n-input :placeholder="t('仓库地址')" v-model:value="model.depository" :disabled="Boolean(model.id)" />
+        <n-form-item-gi :label="t('fields.project_warehouse')" path="depository">
+          <n-input :placeholder="t('fields.project_warehouse')" v-model:value="model.depository" />
         </n-form-item-gi>
         <n-form-item-gi :label="t('fields.dockerfile')" path="dockerfile" span="2">
           <n-input
@@ -44,11 +44,11 @@
               v-model:value="model.compose_yml"
           />
         </n-form-item-gi>
-        <n-form-item-gi span="3" :label="t('项目文件配置')" path="file_config">
+        <n-form-item-gi span="3" :label="t('fields.file_config')" path="file_config">
           <n-dynamic-input v-model:value="model.file_config" #="{ index, value }" :on-create="newPair">
             <n-space style="width:70%" vertical>
-              <n-input style="width:50%" :placeholder="t('配置文件名称')" v-model:value="value.name" />
-              <n-input type="textarea" rows="10" :placeholder="t('配置文件内容')" v-model:value="value.value" />
+              <n-input style="width:50%" :placeholder="t('fields.file_name')" v-model:value="value.name" />
+              <n-input type="textarea" rows="10" :placeholder="t('fields.file_value')" v-model:value="value.value" />
             </n-space>
           </n-dynamic-input>
         </n-form-item-gi>

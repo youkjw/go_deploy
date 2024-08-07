@@ -1,7 +1,7 @@
 <template>
   <x-page-header :subtitle="model.name || model.id">
     <template #action>
-      <n-button secondary size="small" @click="$router.push({ name: 'config_list' })">
+      <n-button secondary size="small" @click="$router.push({ name: 'project_list' })">
         <template #icon>
           <n-icon>
             <back-icon />
@@ -12,7 +12,7 @@
       <n-button
         secondary
         size="small"
-        @click="$router.push({ name: 'config_edit', params: { id: model.id } })"
+        @click="$router.push({ name: 'project_edit', params: { id: model.id } })"
       >{{ t('buttons.edit') }}</n-button>
     </template>
   </x-page-header>
@@ -22,55 +22,26 @@
         <n-space vertical :size="16">
           <x-description :label-width="90">
             <x-description-item :label="t('fields.id')">{{ model.id }}</x-description-item>
-            <x-description-item :label="t('fields.name')">{{ model.name }}</x-description-item>
+            <x-description-item :label="t('fields.project_name')">{{ model.name }}</x-description-item>
+            <x-description-item :span="2" :label="t('fields.project_desc')">{{ model.desc }}</x-description-item>
             <x-description-item :label="t('fields.created_at')">{{ model.createdAt }}</x-description-item>
             <x-description-item :label="t('fields.updated_at')">{{ model.updatedAt }}</x-description-item>
           </x-description>
-          <x-panel :title="t('fields.content')">
-            <x-code :code="model.data" />
-          </x-panel>
-          <x-panel :title="t('fields.labels')" v-if="model.labels && model.labels.length">
+          <x-panel :title="t('fields.file_config')" v-if="model.file_config && model.file_config.length">
             <n-table size="small" :bordered="true" :single-line="false">
               <thead>
                 <tr>
-                  <th>{{ t('fields.name') }}</th>
-                  <th>{{ t('fields.value') }}</th>
+                  <th>{{ t('fields.file_name') }}</th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="label in model.labels">
+                <tr v-for="label in model.file_config">
                   <td>{{ label.name }}</td>
-                  <td>{{ label.value }}</td>
-                </tr>
-              </tbody>
-            </n-table>
-          </x-panel>
-          <x-panel :title="t('fields.template')" v-if="model.name">
-            <x-description label-align="left" :label-width="40">
-              <x-description-item :label="t('fields.engine')" :span="2">
-                <n-tag round size="small" type="warning">{{ model.templating.name }}</n-tag>
-              </x-description-item>
-            </x-description>
-            <p style="margin: 6px 0">{{ t('fields.options') }}</p>
-            <n-table size="small" :bordered="true" :single-line="false">
-              <thead>
-                <tr>
-                  <th>{{ t('fields.name') }}</th>
-                  <th>{{ t('fields.value') }}</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="label in model.templating.options">
-                  <td>{{ label.name }}</td>
-                  <td>{{ label.value }}</td>
                 </tr>
               </tbody>
             </n-table>
           </x-panel>
         </n-space>
-      </n-tab-pane>
-      <n-tab-pane name="raw" :tab="t('fields.raw')">
-        <x-code :code="raw" language="json" />
       </n-tab-pane>
     </n-tabs>
   </div>
@@ -106,7 +77,6 @@ async function fetchData() {
   const id = route.params.id as string;
   let r = await projectApi.find(id);
   model.value = r.data?.item as Project;
-  raw.value = r.data?.raw as string;
 }
 
 onMounted(fetchData);

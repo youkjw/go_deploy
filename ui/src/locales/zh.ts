@@ -208,6 +208,12 @@ export default {
         "theme": "主题",
         "dockerfile": "Dockerfile",
         "compose_yml": "compose.yml",
+        "file_config": "项目文件配置",
+        "file_name": "配置文件名称",
+        "file_value": "配置文件内容",
+        "project_name": "项目名称",
+        "project_desc": "项目描述",
+        "project_warehouse": "仓库地址",
     },
     "dialogs": {
         "restart_service": {
