@@ -100,8 +100,7 @@ const columns = [
         {
           type: 'primary',
           text: t('buttons.deploy'),
-          action: () => deployProject(c.id),
-          prompt: t('prompts.deploy'),
+          action: () => router.push({ name: 'project_publish', params: { id: c.id } }),
           icon: PlayCircleOutline,
         },
         {

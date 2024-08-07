@@ -343,6 +343,7 @@ export default {
         "setting": "设置",
         "403": "403 禁止访问",
         "404": "404 页面不存在",
+        "project_publish": "项目发布",
     },
     "enums": {
         "yes": "是",
@@ -362,6 +363,8 @@ export default {
         "rollback": "回退",
         "start_first": "启动优先",
         "stop_first": "停止优先",
+        "active": "活跃",
+        "publish": "发布中",
     },
     "prompts": {
         "delete": "确定要删除？",

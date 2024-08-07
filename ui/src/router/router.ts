@@ -94,6 +94,14 @@ const routes: RouteRecordRaw[] = [
     }
   },
   {
+    name: "project_publish",
+    path: "/deploy/projects/publish/:id",
+    component: () => import('../pages/project/Publish.vue'),
+    meta: {
+      auth: 'project.edit',
+    }
+  },
+  {
     name: 'node_list',
     path: "/swarm/nodes",
     component: () => import('../pages/node/List.vue'),

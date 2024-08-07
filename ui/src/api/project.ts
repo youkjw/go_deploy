@@ -11,6 +11,7 @@ export interface Project {
         name: string;
         value: string;
     }[];
+    status: string,
     createdAt: string;
     updatedAt: string;
 }

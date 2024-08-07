@@ -24,11 +24,6 @@
             <x-description-item :label="t('fields.id')">{{ model.id }}</x-description-item>
             <x-description-item :label="t('fields.project_name')">{{ model.name }}</x-description-item>
             <x-description-item :span="2" :label="t('fields.project_desc')">{{ model.desc }}</x-description-item>
-            <x-description-item :label="t('fields.project_warehouse')">{{ model.depository }}</x-description-item>
-            <x-description-item :label="t('fields.status')">
-              <n-tag round size="small" :type="'primary'" v-if="model.status === 'active'">{{ t('enums.active') }}</n-tag>
-              <n-tag round size="small" :type="'error'" v-if="model.status === 'publish'">{{ t('enums.publish') }}</n-tag>
-            </x-description-item>
             <x-description-item :label="t('fields.created_at')">{{ model.createdAt }}</x-description-item>
             <x-description-item :label="t('fields.updated_at')">{{ model.updatedAt }}</x-description-item>
           </x-description>
