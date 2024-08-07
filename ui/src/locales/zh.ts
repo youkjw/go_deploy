@@ -214,6 +214,7 @@ export default {
         "project_name": "项目名称",
         "project_desc": "项目描述",
         "project_warehouse": "仓库地址",
+        "project_branches": "项目分支",
     },
     "dialogs": {
         "restart_service": {

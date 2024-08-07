@@ -65,7 +65,6 @@ import {
 } from "naive-ui";
 import { ArrowBackCircleOutline as BackIcon } from "@vicons/ionicons5";
 import XPageHeader from "@/components/PageHeader.vue";
-import XCode from "@/components/Code.vue";
 import XPanel from "@/components/Panel.vue";
 import projectApi from "@/api/project";
 import type { Project } from "@/api/project";
