@@ -1,7 +1,8 @@
 import { h } from "vue";
 import type { RouteLocationRaw } from "vue-router";
-import { NButton, NPopconfirm, NSpace, NTag, NTime } from "naive-ui";
+import { NButton, NPopconfirm, NSpace, NTag, NTime, NIcon } from "naive-ui";
 import Anchor from "../components/Anchor.vue";
+import {Component} from "@vue/runtime-core";
 
 /**
  * Format duration
@@ -96,10 +97,11 @@ export interface Button {
     text: string,
     action: (e: MouseEvent) => void,
     prompt?: string,
+    icon?: Component,
 }
 
 export function renderButtons(btns: Array<Button>) {
-    return btns.map(btn => renderButton(btn.type, btn.text, btn.action, btn.prompt));
+    return btns.map(btn => renderButton(btn.type, btn.text, btn.action, btn.prompt, btn.icon));
 }
 
 export function renderButton(
@@ -107,6 +109,7 @@ export function renderButton(
     text: string,
     action: (e: MouseEvent) => void,
     prompt?: string,
+    icon?: Component,
 ) {
     if (prompt) {
         return h(
@@ -116,18 +119,25 @@ export function renderButton(
             },
             {
                 default: () => prompt,
-                trigger: () => renderBtn(type, text),
+                trigger: () => renderBtn(type, text, icon),
             }
         )
     }
-    return renderBtn(type, text, action)
+    return renderBtn(type, text, icon, action)
 }
 
 function renderBtn(
     type: "default" | "primary" | "error" | "info" | "success" | "warning",
     text: string,
+    icon?: Component,
     action?: (e: MouseEvent) => void,
 ) {
+    let render: any;
+    if (icon) {
+        render = renderIcon(icon, 18)
+    } else {
+        render = text
+    }
     return h(
         NButton,
         {
@@ -136,6 +146,20 @@ function renderBtn(
             type: type,
             onClick: action,
         },
-        { default: () => text }
+        { default: () => render }
+    )
+}
+
+function renderIcon(
+    icon: Component,
+    size:number,
+) {
+    return h(
+        NIcon,
+        {
+            size: size,
+            quaternary: true,
+        },
+        {default: ()=> h(icon)}
     )
 }

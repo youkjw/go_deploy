@@ -40,7 +40,13 @@ import {
   NInput,
   NDataTable,
 } from "naive-ui";
-import { AddOutline as AddIcon } from "@vicons/ionicons5";
+import {
+  AddOutline as AddIcon,
+  PlayCircleOutline,
+  TrashOutline,
+  CreateOutline,
+  TimerOutline,
+} from "@vicons/ionicons5";
 import { useRouter } from "vue-router";
 import XPageHeader from "@/components/PageHeader.vue";
 import projectApi from "@/api/project";
@@ -83,17 +89,26 @@ const columns = [
           text: t('buttons.delete'),
           action: () => deleteProject(c.id, index),
           prompt: t('prompts.delete'),
+          icon: TrashOutline,
         },
         {
           type: 'warning',
           text: t('buttons.edit'),
           action: () => router.push({ name: 'project_edit', params: { id: c.id } }),
+          icon: CreateOutline,
         },
         {
           type: 'primary',
           text: t('buttons.deploy'),
           action: () => deployProject(c.id),
           prompt: t('prompts.deploy'),
+          icon: PlayCircleOutline,
+        },
+        {
+          type: 'default',
+          text: t('buttons.record'),
+          action: () => projectRecord(c.id),
+          icon: TimerOutline,
         },
       ])
     },
@@ -109,4 +124,9 @@ async function deleteProject(id: string, index: number) {
 async function deployProject(id: string) {
   await projectApi.deploy(id);
 }
+
+async function projectRecord(id: string) {
+
+}
+
 </script>

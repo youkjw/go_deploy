@@ -30,6 +30,7 @@ export default {
         "submit": "提交",
         "home": "返回首页",
         "copy": "复制",
+        "record": "记录",
     },
     "perms": {
         "view": "浏览",

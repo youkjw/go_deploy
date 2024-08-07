@@ -94,6 +94,14 @@ const routes: RouteRecordRaw[] = [
     }
   },
   {
+    name: 'node_list',
+    path: "/swarm/nodes",
+    component: () => import('../pages/node/List.vue'),
+    meta: {
+      auth: 'node.view',
+    }
+  },
+  {
     name: 'node_detail',
     path: "/swarm/nodes/:id",
     component: () => import('../pages/node/View.vue'),
