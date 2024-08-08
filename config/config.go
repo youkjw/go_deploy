@@ -11,10 +11,15 @@ type loadConfig func() (err error)
 
 type deployConfig struct {
 	Deploy *Deploy
+	Git    *Git
 }
 
 type Deploy struct {
 	TmpPath string `json:"tmp_path" yaml:"tmp_path"`
+}
+
+type Git struct {
+	Token string `json:"token" yaml:"token"`
 }
 
 func LoadConfig() (err error) {

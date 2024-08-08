@@ -9,6 +9,7 @@ import (
 	"go_deploy/dao"
 	"go_deploy/dao/mongo"
 	"go_deploy/docker"
+	"go_deploy/git"
 	"go_deploy/utils"
 	"os"
 	"path"
@@ -20,15 +21,17 @@ type ProjectBiz interface {
 	Delete(ctx context.Context, id, name string, user web.User) (err error)
 	Create(ctx context.Context, project *dao.Project, user web.User) (err error)
 	Update(ctx context.Context, project *dao.Project, user web.User) (err error)
+	SearchDepository(ctx context.Context, name string) (projects []*dao.Depository, err error)
 	DeployBuildEnv(ctx context.Context, project *dao.Project, user web.User) (env *ProjectDeployEnv, err error)
 }
 
-func NewProject(n *docker.Docker, d dao.Interface, eb EventBiz) ProjectBiz {
-	return &projectBiz{n: n, d: d, eb: eb}
+func NewProject(n *docker.Docker, g *git.Gitlab, d dao.Interface, eb EventBiz) ProjectBiz {
+	return &projectBiz{n: n, d: d, g: g, eb: eb}
 }
 
 type projectBiz struct {
 	n  *docker.Docker
+	g  *git.Gitlab
 	d  dao.Interface
 	eb EventBiz
 }
@@ -76,15 +79,15 @@ func (b *projectBiz) Create(ctx context.Context, project *dao.Project, user web.
 
 func (b *projectBiz) Update(ctx context.Context, project *dao.Project, user web.User) (err error) {
 	r := &dao.Project{
-		ID:         project.ID,
-		Name:       project.Name,
-		Desc:       project.Desc,
-		Depository: project.Depository,
-		DockerFile: project.DockerFile,
-		ComposeYml: project.ComposeYml,
-		FileConfig: project.FileConfig,
-		UpdatedAt:  now(),
-		UpdatedBy:  newOperator(user),
+		ID:           project.ID,
+		Name:         project.Name,
+		Desc:         project.Desc,
+		DepositoryId: project.DepositoryId,
+		DockerFile:   project.DockerFile,
+		ComposeYml:   project.ComposeYml,
+		FileConfig:   project.FileConfig,
+		UpdatedAt:    now(),
+		UpdatedBy:    newOperator(user),
 	}
 	err = b.d.ProjectUpdate(ctx, r)
 	if err == nil {
@@ -93,6 +96,24 @@ func (b *projectBiz) Update(ctx context.Context, project *dao.Project, user web.
 		}()
 	}
 	return
+}
+
+func (b *projectBiz) SearchDepository(ctx context.Context, name string) (items []*dao.Depository, err error) {
+	items = make([]*dao.Depository, 0)
+
+	gitProjectList, _, err := b.g.ProjectList(ctx, name)
+	if err != nil {
+		return items, err
+	}
+
+	for _, gitProject := range gitProjectList {
+		items = append(items, &dao.Depository{
+			DepositoryId: int64(gitProject.ID),
+			Name:         gitProject.Name,
+		})
+	}
+
+	return items, nil
 }
 
 func (b *projectBiz) DeployBuildEnv(ctx context.Context, project *dao.Project, user web.User) (*ProjectDeployEnv, error) {

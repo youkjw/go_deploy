@@ -25,8 +25,13 @@
             :autosize="{ minRows: 5, maxRows: 30 }"
           />
         </n-form-item-gi>
-        <n-form-item-gi :label="t('fields.project_warehouse')" path="depository">
-          <n-input :placeholder="t('fields.project_warehouse')" v-model:value="model.depository" />
+        <n-form-item-gi :label="t('fields.project_warehouse')" path="depository_id">
+          <n-select
+              v-model:value="selectedValue"
+              filterable
+              placeholder="选择分支"
+              :options="options"
+          />
         </n-form-item-gi>
         <n-form-item-gi :label="t('fields.dockerfile')" path="dockerfile" span="2">
           <n-input
@@ -86,7 +91,7 @@ import {
 } from "@vicons/ionicons5";
 import XPageHeader from "@/components/PageHeader.vue";
 import XPanel from "@/components/Panel.vue";
-import projectApi from "@/api/project";
+import projectApi, {ProjectDepository} from "@/api/project";
 import type { Project } from "@/api/project";
 import { useRoute } from "vue-router";
 import { router } from "@/router/router";
@@ -122,5 +127,12 @@ async function fetchData() {
   }
 }
 
+const depository = ref();
+async function fetchDepository() {
+  let tr = await projectApi.search_depository();
+  depository.value = tr.data?.items as ProjectDepository[];
+}
+
 onMounted(fetchData);
+onMounted(fetchDepository);
 </script>

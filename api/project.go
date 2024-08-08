@@ -11,20 +11,24 @@ import (
 )
 
 type ProjectHandler struct {
-	Search web.HandlerFunc `path:"/search" auth:"project.view" desc:"search configs"`
-	Find   web.HandlerFunc `path:"/find" auth:"project.view" desc:"find config by name"`
-	Delete web.HandlerFunc `path:"/delete" method:"post" auth:"project.delete" desc:"delete project"`
-	Save   web.HandlerFunc `path:"/save" method:"post" auth:"project.edit" desc:"create or update project"`
-	Deploy web.HandlerFunc `path:"/deploy" method:"post" auth:"project.deploy" desc:"deploy project"`
+	Search           web.HandlerFunc `path:"/search" auth:"project.view" desc:"search configs"`
+	Find             web.HandlerFunc `path:"/find" auth:"project.view" desc:"find config by name"`
+	Delete           web.HandlerFunc `path:"/delete" method:"post" auth:"project.delete" desc:"delete project"`
+	Save             web.HandlerFunc `path:"/save" method:"post" auth:"project.edit" desc:"create or update project"`
+	Deploy           web.HandlerFunc `path:"/deploy" method:"post" auth:"project.deploy" desc:"deploy project"`
+	Branches         web.HandlerFunc `path:"/branches" auth:"project.view" desc:"find project branches list"`
+	SearchDepository web.HandlerFunc `path:"/search_depository" auth:"project.edit" desc:"find project depositorys list"`
 }
 
 func NewProject(b biz.ProjectBiz) *ProjectHandler {
 	return &ProjectHandler{
-		Search: projectSearch(b),
-		Find:   projectFind(b),
-		Delete: projectDelete(b),
-		Save:   projectSave(b),
-		Deploy: projectDeploy(b),
+		Search:           projectSearch(b),
+		Find:             projectFind(b),
+		Delete:           projectDelete(b),
+		Save:             projectSave(b),
+		Deploy:           projectDeploy(b),
+		Branches:         projectBranches(b),
+		SearchDepository: projectDepositoryList(b),
 	}
 }
 
@@ -133,6 +137,27 @@ func projectDeploy(b biz.ProjectBiz) web.HandlerFunc {
 		}
 		defer env.Clear()
 
+		return nil
+	}
+}
+
+func projectDepositoryList(b biz.ProjectBiz) web.HandlerFunc {
+	return func(c web.Context) error {
+		ctx, cancel := misc.Context(defaultTimeout)
+		defer cancel()
+
+		name := c.Query("name")
+
+		lists, err := b.SearchDepository(ctx, name)
+		if err != nil {
+			return err
+		}
+		return success(c, data.Map{"items": lists})
+	}
+}
+
+func projectBranches(b biz.ProjectBiz) web.HandlerFunc {
+	return func(c web.Context) error {
 		return nil
 	}
 }

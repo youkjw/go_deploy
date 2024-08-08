@@ -262,22 +262,27 @@ type ProjectSearchArgs struct {
 }
 
 type Project struct {
-	ID         string              `json:"id,omitempty" bson:"_id"`
-	Name       string              `json:"name" bson:"name" valid:"required"`
-	Desc       string              `json:"desc" bson:"desc"`
-	Depository string              `json:"depository" bson:"depository"`
-	DockerFile string              `json:"dockerfile" bson:"dockerfile" valid:"required"`
-	ComposeYml string              `json:"compose_yml" bson:"compose_yml"  valid:"required"`
-	FileConfig []ProjectFileConfig `json:"file_config" bson:"file_config"`
-	Status     string              `json:"status" bson:"status"`
-	Deleted    bool                `json:"deleted" bson:"deleted"`
-	CreatedAt  Time                `json:"createdAt" bson:"created_at"`
-	UpdatedAt  Time                `json:"updatedAt" bson:"updated_at"`
-	CreatedBy  Operator            `json:"createdBy" bson:"created_by"`
-	UpdatedBy  Operator            `json:"updatedBy" bson:"updated_by"`
+	ID           string              `json:"id,omitempty" bson:"_id"`
+	Name         string              `json:"name" bson:"name" valid:"required"`
+	Desc         string              `json:"desc" bson:"desc"`
+	DepositoryId string              `json:"depository_id" bson:"depository_id"`
+	DockerFile   string              `json:"dockerfile" bson:"dockerfile" valid:"required"`
+	ComposeYml   string              `json:"compose_yml" bson:"compose_yml"  valid:"required"`
+	FileConfig   []ProjectFileConfig `json:"file_config" bson:"file_config"`
+	Status       string              `json:"status" bson:"status"`
+	Deleted      bool                `json:"deleted" bson:"deleted"`
+	CreatedAt    Time                `json:"createdAt" bson:"created_at"`
+	UpdatedAt    Time                `json:"updatedAt" bson:"updated_at"`
+	CreatedBy    Operator            `json:"createdBy" bson:"created_by"`
+	UpdatedBy    Operator            `json:"updatedBy" bson:"updated_by"`
 }
 
 type ProjectFileConfig struct {
 	Name  string `json:"name" bson:"name"`
 	Value string `json:"value" bson:"value"`
+}
+
+type Depository struct {
+	DepositoryId int64  `json:"depository_id" bson:"depository_id"`
+	Name         string `json:"name" bson:"name"`
 }

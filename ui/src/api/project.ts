@@ -31,6 +31,16 @@ export interface FindResult {
     item: Project;
 }
 
+export interface ProjectDepository{
+    depository_id: number,
+    name: string,
+}
+
+export interface SearchDepositoryResult {
+    items: ProjectDepository[];
+    total: number;
+}
+
 export class ProjectyApi {
     find(id: string) {
         return ajax.get<FindResult>('/project/find', { id })
@@ -50,6 +60,10 @@ export class ProjectyApi {
 
     deploy(id: string) {
         return ajax.post<Result<Object>>('/project/deploy', { id })
+    }
+
+    search_depository(name?:string) {
+        return ajax.get<SearchDepositoryResult>('/project/search_depository', { name })
     }
 }
 

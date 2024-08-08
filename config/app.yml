@@ -25,3 +25,6 @@ log:
 
 deploy:
   tmp_path: /Users/lhlh/build
+
+git:
+  token: GD4fh_FJigPQdNzNFnEn
