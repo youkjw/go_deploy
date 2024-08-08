@@ -5,14 +5,18 @@ import (
 	"github.com/xanzy/go-gitlab"
 )
 
-func (g *Gitlab) ProjectList(ctx context.Context, name string) ([]*gitlab.Project, *gitlab.Response, error) {
+func (g *Gitlab) ProjectList(ctx context.Context, page int, name string) ([]*gitlab.Project, *gitlab.Response, error) {
 	var c *gitlab.Client
 	c, err := g.client()
 	if err != nil {
 		return nil, nil, err
 	}
 
-	var opt = &gitlab.ListProjectsOptions{}
+	var opt = &gitlab.ListProjectsOptions{
+		ListOptions: gitlab.ListOptions{
+			Page: page,
+		},
+	}
 	if len(name) > 0 {
 		opt.Search = &name
 	}

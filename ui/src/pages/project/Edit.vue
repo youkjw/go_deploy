@@ -29,8 +29,10 @@
           <n-select
               v-model:value="selectedValue"
               filterable
-              placeholder="选择分支"
-              :options="options"
+              placeholder="选择项目"
+              :options="depository"
+              @scroll="handleScroll"
+              :reset-menu-on-options-change="false"
           />
         </n-form-item-gi>
         <n-form-item-gi :label="t('fields.dockerfile')" path="dockerfile" span="2">
@@ -71,7 +73,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted, defineComponent, ref } from "vue";
 import {
   NButton,
   NSpace,
@@ -81,9 +83,7 @@ import {
   NGrid,
   NFormItemGi,
   NDynamicInput,
-  NRadioGroup,
-  NRadio,
-  NDivider,
+  NSelect,
 } from "naive-ui";
 import {
   ArrowBackCircleOutline as BackIcon,
@@ -127,12 +127,28 @@ async function fetchData() {
   }
 }
 
-const depository = ref();
-async function fetchDepository() {
-  let tr = await projectApi.search_depository();
-  depository.value = tr.data?.items as ProjectDepository[];
+function handleScroll(e: Event) {
+  const currentTarget = e.currentTarget as HTMLElement
+  if (
+      currentTarget.scrollTop + currentTarget.offsetHeight
+      >= currentTarget.scrollHeight
+  ) {
+    debugger
+    fetchDepository(2)
+  }
 }
 
-onMounted(fetchData);
+const depository: any = ref([]);
+async function fetchDepository(page?:number) {
+  let tr = await projectApi.search_depository(page);
+  let items = tr.data?.items.map(n => ({ label: n.name, value: n.depository_id }))
+  // if (depository.value) {
+  //   depository.value.push(items);
+  // } else {
+    depository.value = items
+  // }
+}
+
 onMounted(fetchDepository);
+onMounted(fetchData);
 </script>

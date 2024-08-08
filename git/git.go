@@ -28,7 +28,8 @@ func (g *Gitlab) client() (c *gitlab.Client, err error) {
 
 		if g.c == nil {
 			var opt = make([]gitlab.ClientOptionFunc, 0)
-			g.c, err = gitlab.NewClient(deployConfig.DeployConfig.Git.Token, opt...)
+			opt = append(opt, gitlab.WithBaseURL(deployConfig.DeployConfig.GitLab.Host))
+			g.c, err = gitlab.NewClient(deployConfig.DeployConfig.GitLab.Token, opt...)
 			if err != nil {
 				return
 			}

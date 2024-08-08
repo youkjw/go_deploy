@@ -62,8 +62,8 @@ export class ProjectyApi {
         return ajax.post<Result<Object>>('/project/deploy', { id })
     }
 
-    search_depository(name?:string) {
-        return ajax.get<SearchDepositoryResult>('/project/search_depository', { name })
+    search_depository(page?:number, name?:string) {
+        return ajax.get<SearchDepositoryResult>('/project/search_depository', { page, name })
     }
 }
 

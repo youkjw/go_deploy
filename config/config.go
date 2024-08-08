@@ -11,20 +11,22 @@ type loadConfig func() (err error)
 
 type deployConfig struct {
 	Deploy *Deploy
-	Git    *Git
+	GitLab *GitLab
 }
 
 type Deploy struct {
 	TmpPath string `json:"tmp_path" yaml:"tmp_path"`
 }
 
-type Git struct {
+type GitLab struct {
+	Host  string `json:"host" yaml:"host"`
 	Token string `json:"token" yaml:"token"`
 }
 
 func LoadConfig() (err error) {
 	for _, fn := range []loadConfig{
 		loadDeploy(),
+		loadGit(),
 	} {
 		if err = fn(); err != nil {
 			return
@@ -43,5 +45,16 @@ func loadDeploy() loadConfig {
 		DeployConfig.Deploy = deploy
 		return
 	}
+}
 
+func loadGit() loadConfig {
+	return func() (err error) {
+		gitLab := &GitLab{}
+		err = config.UnmarshalOption("gitlab", &gitLab)
+		if err != nil {
+			err = errors.Wrap(err, "failed to load git")
+		}
+		DeployConfig.GitLab = gitLab
+		return
+	}
 }

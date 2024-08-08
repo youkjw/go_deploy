@@ -8,6 +8,7 @@ import (
 	"go_deploy/biz"
 	"go_deploy/dao"
 	"go_deploy/misc"
+	"strconv"
 )
 
 type ProjectHandler struct {
@@ -147,8 +148,13 @@ func projectDepositoryList(b biz.ProjectBiz) web.HandlerFunc {
 		defer cancel()
 
 		name := c.Query("name")
+		page := c.Query("p")
 
-		lists, err := b.SearchDepository(ctx, name)
+		p, _ := strconv.ParseInt(page, 10, 64)
+		if p <= 0 {
+			p = 1
+		}
+		lists, err := b.SearchDepository(ctx, int(p), name)
 		if err != nil {
 			return err
 		}

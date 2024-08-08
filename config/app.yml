@@ -26,5 +26,6 @@ log:
 deploy:
   tmp_path: /Users/lhlh/build
 
-git:
+gitlab:
+  host: https://gitlab.cpp32.com
   token: GD4fh_FJigPQdNzNFnEn
