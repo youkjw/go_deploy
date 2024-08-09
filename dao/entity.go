@@ -262,19 +262,21 @@ type ProjectSearchArgs struct {
 }
 
 type Project struct {
-	ID           string              `json:"id,omitempty" bson:"_id"`
-	Name         string              `json:"name" bson:"name" valid:"required"`
-	Desc         string              `json:"desc" bson:"desc"`
-	DepositoryId int64               `json:"depository_id" bson:"depository_id"`
-	DockerFile   string              `json:"dockerfile" bson:"dockerfile" valid:"required"`
-	ComposeYml   string              `json:"compose_yml" bson:"compose_yml"  valid:"required"`
-	FileConfig   []ProjectFileConfig `json:"file_config" bson:"file_config"`
-	Status       string              `json:"status" bson:"status"`
-	Deleted      bool                `json:"deleted" bson:"deleted"`
-	CreatedAt    Time                `json:"createdAt" bson:"created_at"`
-	UpdatedAt    Time                `json:"updatedAt" bson:"updated_at"`
-	CreatedBy    Operator            `json:"createdBy" bson:"created_by"`
-	UpdatedBy    Operator            `json:"updatedBy" bson:"updated_by"`
+	ID                string              `json:"id,omitempty" bson:"_id"`
+	Name              string              `json:"name" bson:"name" valid:"required"`
+	Desc              string              `json:"desc" bson:"desc"`
+	DepositoryId      int64               `json:"depository_id" bson:"depository_id"  valid:"required"`
+	DepositorySshUrl  string              `json:"depository_ssh_url" bson:"depository_ssh_url"`
+	DepositoryHttpUrl string              `json:"depository_http_url" bson:"depository_http_url"`
+	DockerFile        string              `json:"dockerfile" bson:"dockerfile" valid:"required"`
+	ComposeYml        string              `json:"compose_yml" bson:"compose_yml"  valid:"required"`
+	FileConfig        []ProjectFileConfig `json:"file_config" bson:"file_config"`
+	Status            string              `json:"status" bson:"status"`
+	Deleted           bool                `json:"deleted" bson:"deleted"`
+	CreatedAt         Time                `json:"createdAt" bson:"created_at"`
+	UpdatedAt         Time                `json:"updatedAt" bson:"updated_at"`
+	CreatedBy         Operator            `json:"createdBy" bson:"created_by"`
+	UpdatedBy         Operator            `json:"updatedBy" bson:"updated_by"`
 }
 
 type ProjectFileConfig struct {

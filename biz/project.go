@@ -70,6 +70,14 @@ func (b *projectBiz) Create(ctx context.Context, project *dao.Project, user web.
 	project.UpdatedAt = project.CreatedAt
 	project.UpdatedBy = project.CreatedBy
 	project.Status = mongo.ProjectStatusActive
+
+	pInfo, _, err := b.g.FindProject(ctx, project.DepositoryId)
+	if err != nil {
+		return err
+	}
+	project.DepositorySshUrl = pInfo.SSHURLToRepo
+	project.DepositoryHttpUrl = pInfo.HTTPURLToRepo
+
 	err = b.d.ProjectCreate(ctx, project)
 	if err == nil {
 		b.eb.CreateConfig(EventActionCreate, project.ID, project.Name, user)
@@ -89,6 +97,14 @@ func (b *projectBiz) Update(ctx context.Context, project *dao.Project, user web.
 		UpdatedAt:    now(),
 		UpdatedBy:    newOperator(user),
 	}
+
+	pInfo, _, err := b.g.FindProject(ctx, project.DepositoryId)
+	if err != nil {
+		return err
+	}
+	r.DepositorySshUrl = pInfo.SSHURLToRepo
+	r.DepositoryHttpUrl = pInfo.HTTPURLToRepo
+
 	err = b.d.ProjectUpdate(ctx, r)
 	if err == nil {
 		go func() {

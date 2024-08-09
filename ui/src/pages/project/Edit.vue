@@ -31,6 +31,7 @@
               filterable
               placeholder="选择项目"
               :options="depository"
+              :disabled="Boolean(model.depository_id)"
           />
         </n-form-item-gi>
         <n-form-item-gi :label="t('fields.dockerfile')" path="dockerfile" span="2">

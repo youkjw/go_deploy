@@ -39,14 +39,16 @@ func (d *Dao) ProjectCreate(ctx context.Context, row *dao.Project) (err error) {
 func (d *Dao) ProjectUpdate(ctx context.Context, project *dao.Project) (err error) {
 	update := bson.M{
 		"$set": bson.M{
-			"name":          project.Name,
-			"desc":          project.Desc,
-			"depository_id": project.DepositoryId,
-			"dockerfile":    project.DockerFile,
-			"file_config":   project.FileConfig,
-			"compose_yml":   project.ComposeYml,
-			"updated_at":    project.UpdatedAt,
-			"updated_by":    project.UpdatedBy,
+			"name":                project.Name,
+			"desc":                project.Desc,
+			"depository_id":       project.DepositoryId,
+			"dockerfile":          project.DockerFile,
+			"file_config":         project.FileConfig,
+			"compose_yml":         project.ComposeYml,
+			"updated_at":          project.UpdatedAt,
+			"updated_by":          project.UpdatedBy,
+			"depository_ssh_url":  project.DepositorySshUrl,
+			"depository_http_url": project.DepositoryHttpUrl,
 		},
 	}
 	return d.update(ctx, Project, project.ID, update)
