@@ -265,7 +265,7 @@ type Project struct {
 	ID           string              `json:"id,omitempty" bson:"_id"`
 	Name         string              `json:"name" bson:"name" valid:"required"`
 	Desc         string              `json:"desc" bson:"desc"`
-	DepositoryId string              `json:"depository_id" bson:"depository_id"`
+	DepositoryId int64               `json:"depository_id" bson:"depository_id"`
 	DockerFile   string              `json:"dockerfile" bson:"dockerfile" valid:"required"`
 	ComposeYml   string              `json:"compose_yml" bson:"compose_yml"  valid:"required"`
 	FileConfig   []ProjectFileConfig `json:"file_config" bson:"file_config"`

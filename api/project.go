@@ -148,13 +148,19 @@ func projectDepositoryList(b biz.ProjectBiz) web.HandlerFunc {
 		defer cancel()
 
 		name := c.Query("name")
-		page := c.Query("p")
+		page := c.Query("page")
+		size := c.Query("size")
 
 		p, _ := strconv.ParseInt(page, 10, 64)
 		if p <= 0 {
 			p = 1
 		}
-		lists, err := b.SearchDepository(ctx, int(p), name)
+		pSize, _ := strconv.ParseInt(size, 10, 64)
+		if p <= 0 {
+			p = 20
+		}
+
+		lists, err := b.SearchDepository(ctx, int(p), int(pSize), name)
 		if err != nil {
 			return err
 		}

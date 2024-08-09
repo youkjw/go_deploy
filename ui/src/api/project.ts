@@ -4,7 +4,7 @@ export interface Project {
     id: string;
     name: string;
     desc: string;
-    depository: string;
+    depository_id: string;
     dockerfile: string;
     compose_yaml: string;
     file_config?: {
@@ -62,8 +62,8 @@ export class ProjectyApi {
         return ajax.post<Result<Object>>('/project/deploy', { id })
     }
 
-    search_depository(page?:number, name?:string) {
-        return ajax.get<SearchDepositoryResult>('/project/search_depository', { page, name })
+    search_depository(page?:number,size?:number, name?:string) {
+        return ajax.get<SearchDepositoryResult>('/project/search_depository', { page, size, name })
     }
 }
 

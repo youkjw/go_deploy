@@ -27,12 +27,10 @@
         </n-form-item-gi>
         <n-form-item-gi :label="t('fields.project_warehouse')" path="depository_id">
           <n-select
-              v-model:value="selectedValue"
+              v-model:value="model.depository_id"
               filterable
               placeholder="选择项目"
               :options="depository"
-              @scroll="handleScroll"
-              :reset-menu-on-options-change="false"
           />
         </n-form-item-gi>
         <n-form-item-gi :label="t('fields.dockerfile')" path="dockerfile" span="2">
@@ -127,26 +125,31 @@ async function fetchData() {
   }
 }
 
-function handleScroll(e: Event) {
-  const currentTarget = e.currentTarget as HTMLElement
-  if (
-      currentTarget.scrollTop + currentTarget.offsetHeight
-      >= currentTarget.scrollHeight
-  ) {
-    debugger
-    fetchDepository(2)
-  }
-}
+// let fetchDepositoryPage = 1;
+// async function handleScroll(e: Event) {
+//   const currentTarget = e.currentTarget as HTMLElement
+//   if (
+//       Math.round(currentTarget.scrollTop) + Math.round(currentTarget.offsetHeight)
+//       >= currentTarget.scrollHeight
+//   ) {
+//     fetchDepositoryPage++
+//     await fetchDepository(fetchDepositoryPage)
+//   }
+// }
 
 const depository: any = ref([]);
-async function fetchDepository(page?:number) {
-  let tr = await projectApi.search_depository(page);
+async function fetchDepository() {
+  let tr = await projectApi.search_depository(1, 200);
   let items = tr.data?.items.map(n => ({ label: n.name, value: n.depository_id }))
-  // if (depository.value) {
-  //   depository.value.push(items);
-  // } else {
+  if (depository.value.length > 0) {
+    if (Array.isArray(items)) {
+      items.forEach((value) => {
+        depository.value.push(value);
+      })
+    }
+  } else {
     depository.value = items
-  // }
+  }
 }
 
 onMounted(fetchDepository);

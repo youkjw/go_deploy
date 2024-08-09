@@ -21,7 +21,7 @@ type ProjectBiz interface {
 	Delete(ctx context.Context, id, name string, user web.User) (err error)
 	Create(ctx context.Context, project *dao.Project, user web.User) (err error)
 	Update(ctx context.Context, project *dao.Project, user web.User) (err error)
-	SearchDepository(ctx context.Context, page int, name string) (projects []*dao.Depository, err error)
+	SearchDepository(ctx context.Context, page int, size int, name string) (projects []*dao.Depository, err error)
 	DeployBuildEnv(ctx context.Context, project *dao.Project, user web.User) (env *ProjectDeployEnv, err error)
 }
 
@@ -98,10 +98,10 @@ func (b *projectBiz) Update(ctx context.Context, project *dao.Project, user web.
 	return
 }
 
-func (b *projectBiz) SearchDepository(ctx context.Context, page int, name string) (items []*dao.Depository, err error) {
+func (b *projectBiz) SearchDepository(ctx context.Context, page int, size int, name string) (items []*dao.Depository, err error) {
 	items = make([]*dao.Depository, 0)
 
-	gitProjectList, _, err := b.g.ProjectList(ctx, page, name)
+	gitProjectList, _, err := b.g.ProjectList(ctx, page, size, name)
 	if err != nil {
 		return items, err
 	}

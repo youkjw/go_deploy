@@ -5,7 +5,7 @@ import (
 	"github.com/xanzy/go-gitlab"
 )
 
-func (g *Gitlab) ProjectList(ctx context.Context, page int, name string) ([]*gitlab.Project, *gitlab.Response, error) {
+func (g *Gitlab) ProjectList(ctx context.Context, page int, size int, name string) ([]*gitlab.Project, *gitlab.Response, error) {
 	var c *gitlab.Client
 	c, err := g.client()
 	if err != nil {
@@ -14,7 +14,7 @@ func (g *Gitlab) ProjectList(ctx context.Context, page int, name string) ([]*git
 
 	var opt = &gitlab.ListProjectsOptions{
 		ListOptions: gitlab.ListOptions{
-			Page: page,
+			PerPage: page * size,
 		},
 	}
 	if len(name) > 0 {
